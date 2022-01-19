@@ -5,15 +5,16 @@ class SudokuSolver():
     def __init__(self):
         self.boardSize=9 #Shouldn't be changed since sudoku standard is a 3x3 grid anyways
         self.board=[
-            [0,2,0,0,0,4,3,0,0],
-            [9,0,0,0,2,0,0,0,8],
-            [0,0,0,6,0,9,7,5,2],
-            [0,0,0,0,0,0,0,0,1],
-            [0,7,2,5,0,3,6,8,0],
-            [6,0,0,0,0,0,0,0,0],
-            [0,8,0,2,0,5,0,0,0],
-            [1,0,0,0,9,0,0,0,3],
-            [0,0,9,8,0,0,0,6,7]] #0 indicates a blank space on the sudoku board
+            [0,8,0,0,0,9,7,4,3],
+            [0,5,0,0,0,8,0,1,0],
+            [0,1,0,0,0,0,0,0,0],
+            [8,0,0,0,0,5,0,0,0],
+            [0,0,0,8,0,4,0,0,0],
+            [0,0,0,3,0,0,0,0,6],
+            [0,0,0,0,0,0,0,7,0],
+            [0,3,0,5,0,0,0,8,0],
+            [9,7,2,4,0,0,0,5,0]] #0 indicates a blank space on the sudoku board   
+                
         
         if (self.run(self.board,0,0)):
             self.printer(self.board)
@@ -23,6 +24,10 @@ class SudokuSolver():
     def printer(self, x):
         for i in range(self.boardSize):
             for j in range(self.boardSize):
+                if (i==3 and j==0 or i==6 and j==0):
+                    print("---------------------",end="\n")
+                if (j==3 or j==6):
+                    print("|",end=" ")
                 print(x[i][j],end= " ")
             print()
     
@@ -35,14 +40,14 @@ class SudokuSolver():
             if self.board[j][col]==num:
                 return False
         
-        rowStart= row-row % int(math.sqrt(self.boardSize))
-        colStart= col-col % int(math.sqrt(self.boardSize))
+        rowStart= row-row % 3
+        colStart= col-col % 3
         
         '''Taking the board size and making it into smaller grids
         Then we check to see if there is already the same number in our smaller grids'''
         
-        for k in range(int(math.sqrt(self.boardSize))): 
-            for l in range(int(math.sqrt(self.boardSize))):
+        for k in range(3): 
+            for l in range(3):
                 if board[k+rowStart][l+colStart] == num:
                     return False
         return True
